@@ -1,6 +1,6 @@
 # xtest-testng-sdk
 
-将 **testng** 测试结果发送到 **ｘ-utest** 系统的类
+将 **testng** 测试结果发送到 **ｘ-utest** 系统的工具类
 
 ## 依赖:
 
