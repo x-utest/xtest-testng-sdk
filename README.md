@@ -1,4 +1,4 @@
-# xtest-testng-demo
+# xtest-testng-sdk
 
 将 **testng** 测试结果发送到 **ｘ-utest** 系统的类
 
