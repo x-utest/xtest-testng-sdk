@@ -2,6 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <!-- 该xml实现调用ＸListener监听器，将测试结果上传至　ｘ-utest　系统 -->
 <suite name="suite1" >
+    <!-- 添加配置信息 如果没有配置信息的话将会读取配置文件中的信息 请保证配置文件存在-->
+    <parameter name="base_url" value="http://192.168.0.29:8011"/>
+    <parameter name="app_id" value="376223a60d7811e883dc448a5b61a7f0"/>
+    <parameter name="app_key" value="cf71ab7e937620de5767ecc08780a69b"/>
+    <parameter name="project_id" value="5a7fb0f047de9d5cf3d13a45"/>
     <!-- 添加XListener监听器，XListener类在com.x-utest.XListener中 -->
     <listeners>
         <listener class-name="team.xutest.XListener" />
