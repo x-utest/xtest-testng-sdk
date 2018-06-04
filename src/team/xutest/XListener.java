@@ -3,6 +3,7 @@ package team.xutest;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Map.Entry;
 
 import org.testng.ISuite;
@@ -18,6 +19,11 @@ import com.alibaba.fastjson.JSONObject;
 public class XListener implements ISuiteListener {
 	long start_time;
 	long end_time;
+	
+	String base_url;
+    String app_id;
+    String app_key;
+    String pro_id;
 
 	@Override
 	public void onStart(ISuite suite) {
@@ -72,8 +78,30 @@ public class XListener implements ISuiteListener {
 
 		// send to x-utest system
 		try {
-			Connect xutest = new Connect();
-			test_result.put("pro_id", xutest.pro_id);
+			PropertiesReader pr = new PropertiesReader();
+	        Properties prop = pr.getProperties();
+	        if(suite.getParameter("base_url")==null){//优先从testng.xml文件中读取配置，没有的话再从配置文件中读取，支持两种配置，但配置文件必须存在，可以没有值
+	        	base_url = (String) prop.get("base_url");
+	        }else{
+	        	base_url = suite.getParameter("base_url");
+	        }
+	        if(suite.getParameter("app_id")==null){//优先从testng.xml文件中读取配置，没有的话再从配置文件中读取，支持两种配置，但配置文件必须存在，可以没有值
+	        	app_id = (String) prop.get("app_id");
+	        }else{
+	        	app_id = suite.getParameter("app_id");
+	        }
+	        if(suite.getParameter("app_key")==null){//优先从testng.xml文件中读取配置，没有的话再从配置文件中读取，支持两种配置，但配置文件必须存在，可以没有值
+	        	app_key = (String) prop.get("app_key");
+	        }else{
+	        	app_key = suite.getParameter("app_key");
+	        }
+	        if(suite.getParameter("project_id")==null){//优先从testng.xml文件中读取配置，没有的话再从配置文件中读取，支持两种配置，但配置文件必须存在，可以没有值
+	        	pro_id = (String) prop.get("project_id");
+	        }else{
+	        	pro_id = suite.getParameter("project_id");
+	        }
+			Connect xutest = new Connect(base_url , app_id , app_key , pro_id);
+			test_result.put("pro_id", pro_id);
 			try {
 				xutest.auth();
 				xutest.post_test_result(test_result);
