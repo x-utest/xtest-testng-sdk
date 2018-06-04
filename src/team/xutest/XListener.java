@@ -18,6 +18,11 @@ import com.alibaba.fastjson.JSONObject;
 public class XListener implements ISuiteListener {
 	long start_time;
 	long end_time;
+	
+	String base_url;
+    	String app_id;
+    	String app_key;
+    	String pro_id;
 
 	@Override
 	public void onStart(ISuite suite) {
@@ -72,8 +77,13 @@ public class XListener implements ISuiteListener {
 
 		// send to x-utest system
 		try {
-			Connect xutest = new Connect();
-			test_result.put("pro_id", xutest.pro_id);
+			//从testng.xml文件中读取配置
+	        	base_url = suite.getParameter("base_url");
+	        	app_id = suite.getParameter("app_id");
+	        	app_key = suite.getParameter("app_key");
+	        	pro_id = suite.getParameter("project_id");
+			Connect xutest = new Connect(base_url , app_id , app_key , pro_id);
+			test_result.put("pro_id", pro_id);
 			try {
 				xutest.auth();
 				xutest.post_test_result(test_result);

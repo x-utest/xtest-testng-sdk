@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Properties;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -23,20 +22,23 @@ public class Connect {
     String token;
 
     // 构造函数, 属性值
-    Connect() throws IOException {
-        PropertiesReader pr = new PropertiesReader();
-        Properties prop = pr.getProperties();
-        base_url = (String) prop.get("base_url");
-        app_id = (String) prop.get("app_id");
-        app_key = (String) prop.get("app_key");
-        pro_id = (String) prop.get("project_id");
+    public Connect(String base_url,String app_id,String app_key,String pro_id) throws IOException {
+        this.base_url = base_url;
+        this.app_id = app_id;
+        this.app_key = app_key;
+        this.pro_id = pro_id;
     }
 
     // x-utest 认证, 获取 token
     public void auth() throws Exception {
         String url = base_url + "/testdata/api-auth/";
         URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+        HttpURLConnection con = null;
+        try{
+        	con = (HttpURLConnection) obj.openConnection();
+        }catch(Exception e){
+        	System.out.println("连接失败！obj为："+obj+"   异常信息为："+e);
+        }
 
         //添加请求内容
         con.setRequestMethod("POST");
